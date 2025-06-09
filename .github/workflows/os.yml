@@ -20,8 +20,8 @@ jobs:
     
     - name: Build project
       run: |
-        cmake -DCMAKE_BUILD_TYPE=Release -B build
-        cmake --build build -j 4
+        cmake -B build
+        cmake --build build -j $(nproc)
 
     - name: Upload binary
       uses: actions/upload-artifact@v4
@@ -45,8 +45,8 @@ jobs:
     
     - name: Build project
       run: |
-        cmake -DCMAKE_BUILD_TYPE=Release -DCI= -B build
-        cmake --build build -j 4
+        cmake -DCI= -B build
+        cmake --build build -j %NUMBER_OF_PROCESSORS%
 
     - name: Upload binary
       uses: actions/upload-artifact@v4
