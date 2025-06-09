@@ -37,7 +37,9 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(Qt6 COMPONENTS Core Widgets Xml)
 
-qt_add_executable(${PROJECT_NAME} src/app.cpp src/win.cpp src/win.h)
+file(GLOB_RECURSE SOURCES "src/*.h" "src/*.cpp")
+
+qt_add_executable(${PROJECT_NAME} ${SOURCES})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON)
 
