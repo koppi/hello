@@ -18,10 +18,13 @@ jobs:
       run: |
         cmake -B build
         cmake --build build -j 5
+    - name: Rename executable
+      run: |
+        cp -pv build/app build/$GITHUB_REF_NAME
     - name: Release
       uses: softprops/action-gh-release@v2
       with:
-        files: build/app
+        files: build/$GITHUB_REF_NAME
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -49,16 +52,20 @@ jobs:
 
   linux:
     runs-on: ubuntu-latest
+    name: Linux
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Build project using docker
         run: |
           docker buildx build . -f dist/linux.Dockerfile --progress=plain --output out
+      - name: Rename executable
+        run: |
+          cp -pv out/app out/$GITHUB_REF_NAME
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            out/app
+            out/$GITHUB_REF_NAME
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
