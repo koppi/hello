@@ -27,7 +27,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         if-no-files-found: error
-        name: MacOS binary
+        name: app-macos
         path: |
           build/app
 
@@ -52,7 +52,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         if-no-files-found: error
-        name: Windows binary
+        name: app-windows
         path: |
           build/app.exe
 
@@ -71,6 +71,6 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         if-no-files-found: error
-        name: Linux binary
+        name: app-linux
         path: |
           out/app
