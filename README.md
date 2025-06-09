@@ -1,0 +1,7 @@
+Hello, world!
+
+![GitHub last commit](https://img.shields.io/github/last-commit/koppi/hello)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/koppi/hello)
+![GitHub contributors](https://img.shields.io/github/contributors/koppi/hello)
+[![Linux](https://github.com/koppi/hello/actions/workflows/hello.yml/badge.svg)](https://github.com/koppi/hello/actions/workflows/hello.yml)
+[![GitHub issues](https://img.shields.io/github/issues/koppi/hello)](https://github.com/koppi/hello/issues)
