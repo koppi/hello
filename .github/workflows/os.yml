@@ -32,7 +32,7 @@ jobs:
         if-no-files-found: error
         name: app-macos
         path: |
-          build/app
+          build/debug/app
 
   windows:
     runs-on: windows-2022
@@ -48,7 +48,7 @@ jobs:
 
     - name: Configure build
       run: |
-        cmake -DCI= cmake --preset debug
+        cmake -DCMAKE_PREFIX_PATH=C:/a/hello/Qt/6.9.0/msvc2022_64/lib -DCI= cmake --preset debug
 
     - name: Execute build
       run: |
