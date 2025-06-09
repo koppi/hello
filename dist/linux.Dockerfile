@@ -1,0 +1,14 @@
+FROM ubuntu:22.04
+
+RUN apt update
+RUN apt install -y qt6-base-dev
+RUN apt install -y cmake make gcc g++
+RUN apt install -y libgl-dev libvulkan-dev # idk why, but without this, QtWidgets is not found
+
+COPY . .
+
+RUN cmake -B build
+RUN cmake --build build -j $(nproc)
+
+FROM scratch
+COPY --from=0 build/app .
