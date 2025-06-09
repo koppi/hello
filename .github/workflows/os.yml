@@ -20,7 +20,7 @@ jobs:
 
     - name: Configure build
       run: |
-        cmake -DCI= --preset debug
+        cmake --preset debug
 
     - name: Execute build
       run: |
