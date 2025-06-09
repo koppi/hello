@@ -12,16 +12,19 @@ jobs:
     runs-on: macos-latest
     name: MacOS
     steps:
-    - name: 🧰 Checkout
+    - name: Checkout
       uses: actions/checkout@v4
 
     - name: install Qt 6
       run: brew install qt@6
-    
-    - name: Build project
+
+    - name: Configure build
       run: |
-        cmake -B build
-        cmake --build build -j 5
+        cmake -DCI= cmake --preset debug
+
+    - name: Execute build
+      run: |
+        cmake --build --preset app-debug
 
     - name: Upload binary
       uses: actions/upload-artifact@v4
@@ -35,18 +38,21 @@ jobs:
     runs-on: windows-2022
     name: Windows
     steps:
-    - name: 🧰 Checkout
+    - name: Checkout
       uses: actions/checkout@v4
 
     - name: install Qt 6
       uses: jurplel/install-qt-action@v4
       with:
         version: "6.9.0"
-    
-    - name: Build project
+
+    - name: Configure build
       run: |
-        cmake -DCI= -B build
-        cmake --build build
+        cmake -DCI= cmake --preset debug
+
+    - name: Execute build
+      run: |
+        cmake --build --preset app-debug
 
     - name: Upload binary
       uses: actions/upload-artifact@v4
@@ -54,13 +60,13 @@ jobs:
         if-no-files-found: error
         name: app-windows
         path: |
-          build/Debug/app.exe
+          build/debug/app.exe
 
   linux:
     runs-on: ubuntu-22.04
     name: Linux
     steps:
-    - name: 🧰 Checkout
+    - name: Checkout
       uses: actions/checkout@v4
 
     - name: Build project using docker
