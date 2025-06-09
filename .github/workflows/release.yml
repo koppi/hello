@@ -61,8 +61,11 @@ jobs:
         version: "6.9.0"
     - name: Build project
       run: |
-        cmake -DCI= -B build
+        cmake -DCI= -DCMAKE_BUILD_TYPE=Release -B build
         cmake --build build
+    - name: Rename executable
+      run: |
+        cp build/Debug/app.exe build/app.exe
     - name: Release
       uses: softprops/action-gh-release@v2
       with:
