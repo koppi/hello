@@ -48,7 +48,7 @@ jobs:
 
     - name: Configure build
       run: |
-        cmake -DCMAKE_PREFIX_PATH="C:\a\hello\Qt\6.9.0\msvc2022_64\" -DCI= cmake --preset debug
+        cmake -DCMAKE_PREFIX_PATH="C:\a\hello\Qt\6.9.0\msvc2022_64\" -DCI= --preset debug
 
     - name: Execute build
       run: |
