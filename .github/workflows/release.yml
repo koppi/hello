@@ -6,6 +6,27 @@ on:
       - "v*.*.*"
 
 jobs:
+
+  linux:
+    runs-on: ubuntu-latest
+    name: Linux
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build project using docker
+        run: |
+          docker buildx build . -f dist/linux.Dockerfile --progress=plain --output out
+      - name: Rename executable
+        run: |
+          mv out/app out/app-linux
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            out/app-linux
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   macos:
     runs-on: macos-latest
     name: MacOS
@@ -49,23 +70,3 @@ jobs:
           build/app.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  linux:
-    runs-on: ubuntu-latest
-    name: Linux
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Build project using docker
-        run: |
-          docker buildx build . -f dist/linux.Dockerfile --progress=plain --output out
-      - name: Rename executable
-        run: |
-          mv out/app out/app-linux
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            out/app-linux
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
