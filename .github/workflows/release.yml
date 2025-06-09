@@ -59,13 +59,14 @@ jobs:
       uses: jurplel/install-qt-action@v4
       with:
         version: "6.9.0"
+        cache: 'true'
     - name: Build project
       run: |
         cmake -S . -B build
-        cmake --build build --config Release
+        cmake --build build --config Debug
     - name: Rename executable
       run: |
-        cp build/Release/app.exe build/app.exe
+        cp build/Debug/app.exe build/app.exe
     - name: Release
       uses: softprops/action-gh-release@v2
       with:
