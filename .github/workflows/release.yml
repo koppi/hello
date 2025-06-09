@@ -62,7 +62,7 @@ jobs:
         cache: 'true'
     - name: Configure build
       run: |
-        cmake -DCMAKE_PREFIX_PATH="C:/a/hello/Qt/6.9.0/msvc2022_64/" -DCI= --preset release
+        cmake -DCMAKE_PREFIX_PATH="C:\a\hello\Qt\6.9.0\msvc2022_64\" -DCI= --preset release
     - name: Execute build
       run: |
         cmake --build --preset app-release
