@@ -41,7 +41,7 @@ qt_add_executable(${PROJECT_NAME} src/app.cpp src/win.cpp src/win.h)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON)
 
-target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Widgets)
+target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6:Gui Qt6::Widgets Qt6::Xml)
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
