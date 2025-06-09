@@ -13,6 +13,7 @@ Available configure presets:
   "debug"         - Debug
   "release"       - Release
 $ cmake --preset debug
+...
 $ cmake --build --list-presets
 Available build presets:
 
