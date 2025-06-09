@@ -48,11 +48,11 @@ jobs:
 
     - name: Configure build
       run: |
-        cmake -DCMAKE_PREFIX_PATH="C:\a\hello\Qt\6.9.0\msvc2022_64\" -DCI= --preset debug
+        cmake -DCMAKE_PREFIX_PATH="C:\a\hello\Qt\6.9.0\msvc2022_64\" -DCI= --preset debug-windows
 
     - name: Execute build
       run: |
-        cmake --build --preset app-debug
+        cmake --build --preset app-debug-windows
 
     - name: Upload binary
       uses: actions/upload-artifact@v4

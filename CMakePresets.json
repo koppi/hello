@@ -22,6 +22,28 @@
 			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Release"
 			}
+		},
+		{
+			"name": "common-windows",
+			"hidden": true,
+			"generator": "Visual Studio 17 2022",
+			"binaryDir": "build/${presetName}"
+		},
+		{
+			"name": "debug-windows",
+			"displayName": "Debug Windows",
+			"inherits": "common-windows",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug"
+			}
+		},
+		{
+			"name": "release-windows",
+			"displayName": "Release Windows",
+			"inherits": "common-windows",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release"
+			}
 		}
 	],
 	"buildPresets": [
@@ -35,6 +57,19 @@
 			"name": "app-release",
 			"displayName": "Build Release",
 			"configurePreset": "release",
+			"configuration": "Release",
+			"targets": ["app"]
+		},
+		{
+			"name": "app-debug-windows",
+			"displayName": "Build Debug",
+			"configurePreset": "debug-windows",
+			"configuration": "Debug"
+		},
+		{
+			"name": "app-release-windows",
+			"displayName": "Build Release",
+			"configurePreset": "release-windows",
 			"configuration": "Release",
 			"targets": ["app"]
 		}
