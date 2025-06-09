@@ -51,6 +51,10 @@ if(UNIX)
     add_compile_options(-fPIC)
 endif()
 
+if (WIN32)
+    set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE ON)
+endif()
+
 if(APPLE)
     add_compile_options(-stdlib=libc++)
     add_link_options(-stdlib=libc++)
