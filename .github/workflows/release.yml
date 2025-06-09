@@ -41,11 +41,11 @@ jobs:
         cmake --build --preset app-release
     - name: Rename executable
       run: |
-        mv build/app build/app-macos
+        mv build/release/app build/release/app-macos
     - name: Publish release
       uses: softprops/action-gh-release@v2
       with:
-        files: build/app-macos
+        files: build/release/app-macos
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
