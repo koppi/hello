@@ -1,4 +1,4 @@
-name: Build a release
+name: Release
 
 on:
   push:
@@ -66,6 +66,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            out/$GITHUB_REF_NAME
+            out/app-linux
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
