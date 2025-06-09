@@ -20,7 +20,7 @@ jobs:
     
     - name: Build project
       run: |
-        cmake -B build
+        cmake -DCMAKE_BUILD_TYPE=Release -B build
         cmake --build build -j 4
 
     - name: Upload binary
@@ -45,7 +45,7 @@ jobs:
     
     - name: Build project
       run: |
-        cmake -B build -DCI=
+        cmake -DCMAKE_BUILD_TYPE=Release -DCI= -B build -G "Ninja"
         cmake --build build -j 4
 
     - name: Upload binary
@@ -54,7 +54,7 @@ jobs:
         if-no-files-found: error
         name: Windows binary
         path: |
-          build/Debug/app.exe
+          build/Release/app.exe
 
   linux:
     runs-on: ubuntu-22.04
