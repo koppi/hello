@@ -19,7 +19,7 @@ jobs:
       - name: Rename executable
         run: |
           mv out/app out/app-linux
-      - name: Release
+      - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
           files: |
@@ -42,7 +42,7 @@ jobs:
     - name: Rename executable
       run: |
         mv build/app build/app-macos
-    - name: Release
+    - name: Publish release
       uses: softprops/action-gh-release@v2
       with:
         files: build/app-macos
@@ -60,14 +60,16 @@ jobs:
       with:
         version: "6.9.0"
         cache: 'true'
-    - name: Build project
+    - name: Configure build
       run: |
-        cmake -S . -B build
-        cmake --build build --config Debug
+        cmake -S . -B build -G "Ninja Multi-Config"
+    - name: Execute build
+      run: |
+        cmake --build build --config Release
     - name: Rename executable
       run: |
-        cp build/Debug/app.exe build/app.exe
-    - name: Release
+        cp build/Release/app.exe build/app.exe
+    - name: Publish release
       uses: softprops/action-gh-release@v2
       with:
         files: |
