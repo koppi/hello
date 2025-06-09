@@ -25,27 +25,27 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  windows:
-    runs-on: windows-2022
-    name: Windows
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: install Qt 6
-      uses: jurplel/install-qt-action@v4
-      with:
-        version: "6.9.0"
-    - name: Build project
-      run: |
-        cmake -DCI= -B build
-        cmake --build build
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            build/app.exe
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#  windows:
+#    runs-on: windows-2022
+#    name: Windows
+#    steps:
+#    - name: Checkout
+#      uses: actions/checkout@v4
+#    - name: install Qt 6
+#      uses: jurplel/install-qt-action@v4
+#      with:
+#        version: "6.9.0"
+#    - name: Build project
+#      run: |
+#        cmake -DCI= -B build
+#        cmake --build build
+#      - name: Release
+#        uses: softprops/action-gh-release@v2
+#        with:
+#          files: |
+#            build/app.exe
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   linux:
     runs-on: ubuntu-latest
