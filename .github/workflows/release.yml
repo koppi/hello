@@ -10,42 +10,35 @@ jobs:
     runs-on: macos-latest
     name: MacOS
     steps:
-    - name: 🧰 Checkout
+    - name: Checkout
       uses: actions/checkout@v4
-
     - name: install Qt 6
       run: brew install qt@6
-
     - name: Build project
       run: |
         cmake -B build
         cmake --build build -j 5
-
     - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            build/app
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v2
+      with:
+        files: build/app
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   windows:
     runs-on: windows-2022
     name: Windows
     steps:
-    - name: 🧰 Checkout
+    - name: Checkout
       uses: actions/checkout@v4
-
     - name: install Qt 6
       uses: jurplel/install-qt-action@v4
       with:
         version: "6.9.0"
-
     - name: Build project
       run: |
         cmake -DCI= -B build
         cmake --build build
-
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
@@ -59,11 +52,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Build project using docker
         run: |
           docker buildx build . -f dist/linux.Dockerfile --progress=plain --output out
-
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
