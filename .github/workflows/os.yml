@@ -54,7 +54,7 @@ jobs:
         if-no-files-found: error
         name: app-windows
         path: |
-          build/app.exe
+          build/Debug/app.exe
 
   linux:
     runs-on: ubuntu-22.04
