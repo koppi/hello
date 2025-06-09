@@ -33,7 +33,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-    - name: install Qt 6
+    - name: Install Qt 6
       run: brew install qt@6
     - name: Build project
       run: |
@@ -55,14 +55,14 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-    - name: install Qt 6
+    - name: Install Qt 6
       uses: jurplel/install-qt-action@v4
       with:
         version: "6.9.0"
         cache: 'true'
     - name: Configure build
       run: |
-        cmake -DCMAKE_PREFIX_PATH=C:/a/hello/Qt/6.9.0/msvc2022_64/lib -DCI= --preset release
+        cmake -DCMAKE_PREFIX_PATH="C:/a/hello/Qt/6.9.0/msvc2022_64/" -DCI= --preset release
     - name: Execute build
       run: |
         cmake --build --preset app-release
