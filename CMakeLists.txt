@@ -41,9 +41,11 @@ file(GLOB_RECURSE SOURCES "src/*.h" "src/*.cpp")
 
 qt_add_executable(${PROJECT_NAME} ${SOURCES})
 
-set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON)
+set_target_properties(${PROJECT_NAME}
+        PROPERTIES AUTOMOC ON)
 
-target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Widgets Qt6::Xml)
+target_link_libraries(${PROJECT_NAME}
+        PUBLIC Qt6::Core Qt6::Widgets Qt6::Xml)
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
@@ -54,7 +56,8 @@ if(UNIX)
 endif()
 
 if (WIN32)
-    set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE ON)
+    set_target_properties(${PROJECT_NAME}
+        PROPERTIES WIN32_EXECUTABLE ON)
 endif()
 
 if(APPLE)
