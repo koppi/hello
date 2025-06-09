@@ -68,11 +68,11 @@ jobs:
         cmake --build --preset app-release-windows
     - name: Rename executable
       run: |
-        cp build/release/app.exe build/app.exe
+        cp build\release-windows\Release\app.exe build/app-x64.exe
     - name: Publish release
       uses: softprops/action-gh-release@v2
       with:
         files: |
-          build/app.exe
+          build/app-x64.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
