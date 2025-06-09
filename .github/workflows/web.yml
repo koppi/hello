@@ -47,7 +47,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
       
-    name: 📃 Deploy to GitHub Pages
+    name: 📃 GitHub Pages
     runs-on: ubuntu-latest
 
     if: ${{ github.ref == 'refs/heads/main' && github.event.repository.fork == false }}
