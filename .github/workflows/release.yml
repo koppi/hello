@@ -62,7 +62,7 @@ jobs:
         cache: 'true'
     - name: Configure build
       run: |
-        cmake --preset release
+        cmake -DCI= --preset release
     - name: Execute build
       run: |
         cmake --build --preset app-release
