@@ -54,7 +54,7 @@ jobs:
         if-no-files-found: error
         name: Windows binary
         path: |
-          build/Release/app.exe
+          build/app.exe
 
   linux:
     runs-on: ubuntu-22.04
