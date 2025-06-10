@@ -9,7 +9,7 @@
 		},
 		{
 			"name": "debug",
-			"displayName": "Debug",
+			"displayName": "Configure Debug",
 			"inherits": "common",
 			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Debug"
@@ -17,7 +17,7 @@
 		},
 		{
 			"name": "release",
-			"displayName": "Release",
+			"displayName": "Configure Release",
 			"inherits": "common",
 			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Release"
@@ -31,7 +31,7 @@
 		},
 		{
 			"name": "debug-windows",
-			"displayName": "Debug Windows",
+			"displayName": "Configure Debug Windows",
 			"inherits": "common-windows",
 			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Debug"
@@ -39,7 +39,7 @@
 		},
 		{
 			"name": "release-windows",
-			"displayName": "Release Windows",
+			"displayName": "Configure Release Windows",
 			"inherits": "common-windows",
 			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Release"
@@ -62,13 +62,13 @@
 		},
 		{
 			"name": "app-debug-windows",
-			"displayName": "Build Debug",
+			"displayName": "Build Debug Windows",
 			"configurePreset": "debug-windows",
 			"configuration": "Debug"
 		},
 		{
 			"name": "app-release-windows",
-			"displayName": "Build Release",
+			"displayName": "Build Release Windows",
 			"configurePreset": "release-windows",
 			"configuration": "Release",
 			"targets": ["app"]
