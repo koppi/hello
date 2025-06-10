@@ -10,7 +10,7 @@ set(APP_AUTHOR "Jakob Flierl")
 set(APP_COPYRIGHT "\\251 2025-${YEAR} ${APP_AUTHOR}")
 set(APP_REVERSE_NAME "io.github.koppi.hello")
 set(APP_DONATE_URL "https://github.com/sponsors/koppi")
-set(APP_VERSION "0.0.40")
+set(APP_VERSION "0.0.42")
 
 set(APP_URL "https://github.com/koppi/hello")
 set(APP_URL_ISSUES_NEW "https://github.com/koppi/hello/issues/new/choose")
