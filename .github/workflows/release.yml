@@ -19,6 +19,7 @@ jobs:
       - name: Rename executable
         run: |
           mv out/app out/app-linux
+          sync
       - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
@@ -42,6 +43,7 @@ jobs:
     - name: Rename executable
       run: |
         mv build/release/app build/release/app-macos
+        sync
     - name: Publish release
       uses: softprops/action-gh-release@v2
       with:
