@@ -9,7 +9,7 @@ on:
 jobs:
 
   macos:
-    runs-on: macos-latest
+    runs-on: macos-13
     name: MacOS
     steps:
     - name: Checkout
