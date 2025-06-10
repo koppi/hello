@@ -1,6 +1,19 @@
 cmake_minimum_required(VERSION 3.22.0 FATAL_ERROR)
 
+# global variables describing the project.
+string(TIMESTAMP YEAR "%Y")
+string(TIMESTAMP DATE "%Y-%m-%d")
+
+set(APP_NAME "Hello World")
+set(APP_EMAIL "jakob.flierl@gmail.com")
+set(APP_AUTHOR "Jakob Flierl")
+set(APP_COPYRIGHT "\\251 2025-${YEAR} ${APP_AUTHOR}")
+set(APP_REVERSE_NAME "io.github.koppi.hello")
+set(APP_DONATE_URL "https://github.com/sponsors/koppi")
 set(APP_VERSION "0.0.40")
+
+set(APP_URL "https://github.com/koppi/hello")
+set(APP_URL_ISSUES_NEW "https://github.com/koppi/hello/issues/new/choose")
 
 if(WIN32 AND NOT DEFINED CI)
   set(CMAKE_PREFIX_PATH "C:/Users/Jakob Flierl/6.9.0/msvc2022_64/")
@@ -11,21 +24,7 @@ if(UNIX)
     set(CMAKE_PREFIX_PATH "/usr/lib/x86_64-linux-gnu/cmake/Qt6")
 endif()
 
-# Global variables describing the project.
-string(TIMESTAMP YEAR "%Y")
-string(TIMESTAMP DATE "%Y-%m-%d")
-
-set(APP_NAME "Hello World")
-set(APP_EMAIL "jakob.flierl@gmail.com")
-set(APP_AUTHOR "Jakob Flierl")
-set(APP_COPYRIGHT "\\251 2025-${YEAR} ${APP_AUTHOR}")
-set(APP_REVERSE_NAME "io.github.koppi.hello")
-set(APP_DONATE_URL "https://github.com/sponsors/koppi")
-
-set(APP_URL "https://github.com/koppi/hello")
-set(APP_URL_ISSUES_NEW "https://github.com/koppi/hello/issues/new/choose")
-
-project(app VERSION ${APP_VERSION} LANGUAGES CXX C)
+project(app VERSION ${APP_VERSION} LANGUAGES CXX)
 
 # Basic C++ related behavior of cmake.
 set(CMAKE_CXX_STANDARD 17)
@@ -36,17 +35,10 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-find_package(Qt6 COMPONENTS Core Widgets Xml)
-
 file(GLOB_RECURSE SOURCES "src/*.h" "src/*.cpp")
 
-qt_add_executable(${PROJECT_NAME} ${SOURCES})
-
-set_target_properties(${PROJECT_NAME}
-        PROPERTIES AUTOMOC ON)
-
-target_link_libraries(${PROJECT_NAME}
-        PUBLIC Qt6::Core Qt6::Widgets Qt6::Xml)
+# XXX set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON)
+# XXX target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Widgets Qt6::Xml)
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
@@ -66,12 +58,40 @@ if(APPLE)
     add_link_options(-stdlib=libc++)
 endif()
 
+# Import Qt libraries.
+set(QT6_MIN_VERSION 6.3.0)
+
 set(QT_COMPONENTS
         Core
         Gui
         Widgets
         Xml
 )
+
+if (FORCE_COLORED_OUTPUT)
+    if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+        add_compile_options(-fdiagnostics-color=always)
+    elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        add_compile_options(-fcolor-diagnostics)
+    endif()
+endif()
+
+find_package(QT NAMES Qt6)
+find_package(Qt6 ${QT6_MIN_VERSION} COMPONENTS ${QT_COMPONENTS} Core5Compat REQUIRED)
+
+# XXX qt_add_executable(${PROJECT_NAME} ${SOURCES})
+
+# Load git commit hash.
+if(REVISION_FROM_GIT AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
+    execute_process(COMMAND "git" "rev-parse" "--short" "HEAD"
+            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+            OUTPUT_VARIABLE APP_REVISION
+            ERROR_QUIET
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+
+    message(STATUS "Detected git revision: '${APP_REVISION}'.")
+endif()
 
 set(APP_LOW_NAME "${CMAKE_PROJECT_NAME}")
 
@@ -90,7 +110,16 @@ add_compile_definitions(
         APP_REVISION="${APP_REVISION}"
         APP_SYSTEM_NAME="${CMAKE_SYSTEM_NAME}"
         APP_SYSTEM_VERSION="${CMAKE_SYSTEM_PROCESSOR}"
+        APP_URL_ISSUES_NEW="${APP_URL_ISSUES_NEW}"
+
+        QT_USE_QSTRINGBUILDER
+        QT_USE_FAST_CONCATENATION
+        QT_USE_FAST_OPERATOR_PLUS
+        UNICODE
+        _UNICODE
 )
+
+# TODO Configure and copy some needed files.
 
 if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE AND NOT DEFINED CI)
     set(DEBUG_SUFFIX)
