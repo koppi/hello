@@ -6,7 +6,8 @@
 #include <QStatusBar>
 
 Win::Win(QWidget *parent) noexcept : QMainWindow(parent) {
-	setWindowTitle(APP_LONG_NAME);
+	auto title = QString().append(APP_LONG_NAME).append(" - rev. ").append(APP_REVISION);
+	setWindowTitle(title);
 
 	auto cw = new QWidget(this);
 
@@ -23,8 +24,8 @@ Win::Win(QWidget *parent) noexcept : QMainWindow(parent) {
 
 	connect(btn, SIGNAL(clicked()), this, SLOT(close()));
 
-	auto *l = new QHBoxLayout(cw);
-	l->addWidget(btn);
+	auto *l = new QGridLayout(cw);
+	l->addWidget(btn, 0,0, Qt::AlignHCenter|Qt::AlignVCenter);
 
 	setCentralWidget(cw);
 
