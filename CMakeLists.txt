@@ -48,11 +48,6 @@ if(UNIX)
     add_compile_options(-fPIC)
 endif()
 
-if (WIN32)
-    set_target_properties(${PROJECT_NAME}
-        PROPERTIES WIN32_EXECUTABLE ON)
-endif()
-
 if(APPLE)
     add_compile_options(-stdlib=libc++)
     add_link_options(-stdlib=libc++)
@@ -77,7 +72,7 @@ if (FORCE_COLORED_OUTPUT)
 endif()
 
 find_package(QT NAMES Qt6)
-find_package(Qt6 ${QT6_MIN_VERSION} COMPONENTS ${QT_COMPONENTS} Core5Compat REQUIRED)
+find_package(Qt6 ${QT6_MIN_VERSION} COMPONENTS ${QT_COMPONENTS} REQUIRED)
 
 # XXX qt_add_executable(${PROJECT_NAME} ${SOURCES})
 
@@ -119,35 +114,36 @@ add_compile_definitions(
         _UNICODE
 )
 
-# TODO Configure and copy some needed files.
+# TODO Configure and copy some needed files, see:
+# https://github.com/martinrotter/rssguard/blob/a12c3952c870d36e4dfe1a6b40500d62f73f9b0d/CMakeLists.txt#L305
 
-if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE AND NOT DEFINED CI)
-    set(DEBUG_SUFFIX)
-    if (MSVC AND CMAKE_BUILD_TYPE MATCHES "Debug")
-        set(DEBUG_SUFFIX "d")
-    endif ()
-    set(QT_INSTALL_PATH "${CMAKE_PREFIX_PATH}")
-    if (NOT EXISTS "${QT_INSTALL_PATH}/bin")
-        set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
-        if (NOT EXISTS "${QT_INSTALL_PATH}/bin")
-            set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
-        endif ()
-    endif ()
-    if (EXISTS "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll")
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E make_directory
-                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy
-
-"${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll"
-                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
-    endif ()
-    foreach (QT_LIB Core Gui Widgets Xml)
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy
-                "${QT_INSTALL_PATH}/bin/Qt6${QT_LIB}${DEBUG_SUFFIX}.dll"
-                "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
-    endforeach (QT_LIB)
-endif ()
+#if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE AND NOT DEFINED CI)
+#    set(DEBUG_SUFFIX)
+#    if (MSVC AND CMAKE_BUILD_TYPE MATCHES "Debug")
+#        set(DEBUG_SUFFIX "d")
+#    endif ()
+#    set(QT_INSTALL_PATH "${CMAKE_PREFIX_PATH}")
+#    if (NOT EXISTS "${QT_INSTALL_PATH}/bin")
+#        set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
+#        if (NOT EXISTS "${QT_INSTALL_PATH}/bin")
+#            set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
+#        endif ()
+#    endif ()
+#    if (EXISTS "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll")
+#        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+#                COMMAND ${CMAKE_COMMAND} -E make_directory
+#                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
+#        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+#                COMMAND ${CMAKE_COMMAND} -E copy
+#
+#"${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll"
+#                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
+#    endif ()
+#    foreach (QT_LIB Core Gui Widgets Xml)
+#        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+#                COMMAND ${CMAKE_COMMAND} -E copy
+#                "${QT_INSTALL_PATH}/bin/Qt6${QT_LIB}${DEBUG_SUFFIX}.dll"
+#                "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
+#    endforeach (QT_LIB)
+#endif ()
 
