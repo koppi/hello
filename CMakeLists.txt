@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22.0 FATAL_ERROR)
 
-set(APP_VERSION "0.0.39")
+set(APP_VERSION "0.0.40")
 
 if(WIN32 AND NOT DEFINED CI)
   set(CMAKE_PREFIX_PATH "C:/Users/Jakob Flierl/6.9.0/msvc2022_64/")
