@@ -37,9 +37,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 file(GLOB_RECURSE SOURCES "src/*.h" "src/*.cpp")
 
-# XXX set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON)
-# XXX target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Widgets Qt6::Xml)
-
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
@@ -52,6 +49,9 @@ if(APPLE)
     add_compile_options(-stdlib=libc++)
     add_link_options(-stdlib=libc++)
 endif()
+
+# Global compilation switches.
+option(REVISION_FROM_GIT "Get revision using `git rev-parse`." ON)
 
 # Import Qt libraries.
 set(QT6_MIN_VERSION 6.3.0)
@@ -74,7 +74,9 @@ endif()
 find_package(QT NAMES Qt6)
 find_package(Qt6 ${QT6_MIN_VERSION} COMPONENTS ${QT_COMPONENTS} REQUIRED)
 
-# XXX qt_add_executable(${PROJECT_NAME} ${SOURCES})
+qt_add_executable(${PROJECT_NAME} ${SOURCES})
+set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON)
+target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Widgets Qt6::Xml)
 
 # Load git commit hash.
 if(REVISION_FROM_GIT AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
@@ -84,7 +86,6 @@ if(REVISION_FROM_GIT AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
             ERROR_QUIET
             OUTPUT_STRIP_TRAILING_WHITESPACE
     )
-
     message(STATUS "Detected git revision: '${APP_REVISION}'.")
 endif()
 
@@ -95,7 +96,7 @@ add_compile_definitions(
         APP_NAME="${APP_NAME}"
         APP_VERSION="${CMAKE_PROJECT_VERSION}"
         APP_URL="${APP_URL}"
-        APP_LONG_NAME="${APP_NAME} ${CMAKE_PROJECT_VERSION}"
+        APP_LONG_NAME="${APP_NAME} v${CMAKE_PROJECT_VERSION}"
         APP_LOW_NAME="${APP_LOW_NAME}"
         APP_REVERSE_NAME="${APP_REVERSE_NAME}"
         APP_AUTHOR="${APP_AUTHOR}"
