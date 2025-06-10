@@ -6,8 +6,7 @@
 #include <QStatusBar>
 
 Win::Win(QWidget *parent) noexcept : QMainWindow(parent) {
-	auto title = QString().append(APP_LONG_NAME).append(" - rev. ").append(APP_REVISION);
-	setWindowTitle(title);
+	setWindowTitle(APP_LONG_NAME);
 
 	auto cw = new QWidget(this);
 
