@@ -72,7 +72,7 @@ jobs:
       run: |
         cp build\release-windows\Release\app.exe build/app-x64.exe
     - name: Publish release
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631
       with:
         files: |
           build/app-x64.exe
