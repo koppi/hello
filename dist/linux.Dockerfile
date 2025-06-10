@@ -8,7 +8,7 @@ RUN apt -qqqy -o Dpkg::Progress-Fancy="0" -o APT::Color="0" -o Dpkg::Use-Pty="0"
 COPY . .
 
 RUN cmake --preset debug
-RUN cmake --build --preset app-debug -j $(($(nproc) + 1))
+RUN cmake --build --parallel $(($(nproc) + 1)) --preset app-debug
 
 FROM scratch
 COPY --from=0 build/debug/app .

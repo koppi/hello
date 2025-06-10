@@ -39,7 +39,7 @@ jobs:
     - name: Build project
       run: |
         cmake --preset release
-        cmake --build --preset app-release
+        cmake --build --parallel 5 --preset app-release
     - name: Rename executable
       run: |
         mv build/release/app build/release/app-macos
@@ -67,7 +67,7 @@ jobs:
         cmake -DCMAKE_PREFIX_PATH="C:\a\hello\Qt\6.9.0\msvc2022_64\" -DCI= --preset release-windows
     - name: Execute build
       run: |
-        cmake --build --preset app-release-windows
+        cmake --build --parallel 5 --preset app-release-windows
     - name: Rename executable
       run: |
         cp build\release-windows\Release\app.exe build/app-x64.exe
