@@ -21,7 +21,7 @@ jobs:
           mv out/app out/app-linux
           sync
       - name: Publish release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631
         with:
           files: |
             out/app-linux
@@ -45,7 +45,7 @@ jobs:
         mv build/release/app build/release/app-macos
         sync
     - name: Publish release
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631
       with:
         files: build/release/app-macos
       env:
