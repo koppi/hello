@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.22.0 FATAL_ERROR)
 
+set(APP_VERSION "0.0.39")
+
 if(WIN32 AND NOT DEFINED CI)
   set(CMAKE_PREFIX_PATH "C:/Users/Jakob Flierl/6.9.0/msvc2022_64/")
   #set(CMAKE_PREFIX_PATH "C:/Users/cishn/6.9.0/msvc2022_64/")
@@ -19,7 +21,6 @@ set(APP_AUTHOR "Jakob Flierl")
 set(APP_COPYRIGHT "\\251 2025-${YEAR} ${APP_AUTHOR}")
 set(APP_REVERSE_NAME "io.github.koppi.hello")
 set(APP_DONATE_URL "https://github.com/sponsors/koppi")
-set(APP_VERSION "0.0.39")
 
 set(APP_URL "https://github.com/koppi/hello")
 set(APP_URL_ISSUES_NEW "https://github.com/koppi/hello/issues/new/choose")
