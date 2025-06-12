@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.28.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.27.7 FATAL_ERROR)
 
 # global variables describing the project.
 string(TIMESTAMP YEAR "%Y")
