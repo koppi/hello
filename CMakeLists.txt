@@ -16,8 +16,8 @@ set(APP_URL "https://github.com/koppi/hello")
 set(APP_URL_ISSUES_NEW "https://github.com/koppi/hello/issues/new/choose")
 
 if(WIN32 AND NOT DEFINED CI)
-  set(CMAKE_PREFIX_PATH "C:/Users/Jakob Flierl/6.9.0/msvc2022_64/")
-  #set(CMAKE_PREFIX_PATH "C:/Users/cishn/6.9.0/msvc2022_64/")
+    set(CMAKE_PREFIX_PATH "C:/Users/Jakob Flierl/6.9.0/msvc2022_64/")
+    #set(CMAKE_PREFIX_PATH "C:/Users/cishn/6.9.0/msvc2022_64/")
 endif()
 
 if(UNIX)
@@ -78,6 +78,10 @@ qt_add_executable(${PROJECT_NAME} ${SOURCES})
 set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON)
 target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Widgets Qt6::Xml)
 
+if(WIN32)
+    set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE TRUE)
+endif()
+
 # Load git commit hash.
 if(REVISION_FROM_GIT AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
     execute_process(COMMAND "git" "rev-parse" "--short" "HEAD"
@@ -96,7 +100,7 @@ add_compile_definitions(
         APP_NAME="${APP_NAME}"
         APP_VERSION="${CMAKE_PROJECT_VERSION}"
         APP_URL="${APP_URL}"
-        APP_LONG_NAME="${APP_NAME} version ${CMAKE_PROJECT_VERSION}+${APP_REVISION}"
+        APP_LONG_NAME="${APP_NAME} v${CMAKE_PROJECT_VERSION}+${APP_REVISION}"
         APP_LOW_NAME="${APP_LOW_NAME}"
         APP_REVERSE_NAME="${APP_REVERSE_NAME}"
         APP_AUTHOR="${APP_AUTHOR}"
@@ -140,7 +144,7 @@ if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE AND NOT DEFINED CI)
 "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll"
                 "$<TARGET_FILE_DIR:${PROJECT_NAME}>/plugins/platforms/")
     endif ()
-    foreach (QT_LIB Core Gui Widgets Xml)
+    foreach (QT_LIB ${QT_COMPONENTS})
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy
                 "${QT_INSTALL_PATH}/bin/Qt6${QT_LIB}${DEBUG_SUFFIX}.dll"
@@ -148,3 +152,10 @@ if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE AND NOT DEFINED CI)
     endforeach (QT_LIB)
 endif ()
 
+if(WIN32 AND NOT DEFINED CI)
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND "${CMAKE_PREFIX_PATH}/bin/windeployqt.exe"
+            --qmldir "${CMAKE_SOURCE_DIR}"
+            "$<TARGET_FILE:${PROJECT_NAME}>"
+    )
+endif()
