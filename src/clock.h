@@ -45,8 +45,8 @@ private:
     {
         Q_UNUSED(event);
         QPainter qp(this);
-        //qp.setBrush(QBrush(Qt::black));
-        //qp.drawRect(0,0,size().width(), size().height());
+        qp.setBrush(QBrush(Qt::black));
+        qp.drawRect(0,0,size().width(), size().height());
         drawFace(qp);
         drawClock(qp);
         drawText(qp);

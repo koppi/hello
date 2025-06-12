@@ -18,13 +18,13 @@ Win::Win(QWidget *parent) noexcept : QMainWindow(parent) {
 	file->addAction(exitAct);
 	menu->addMenu(file);
 
-	btn = new QPushButton(tr("Hello, world!"), cw);
+	btn = new QPushButton(tr("Hello, world!"), this);
 	btn->setDefault(true);
 	connect(btn, SIGNAL(clicked()), this, SLOT(close()));
 
 	auto *l = new QGridLayout(cw);
 
-	c = new Clock(480, 480, cw);
+	c = new Clock(480, 480, this);
 
 	l->addWidget(btn, 0,0, Qt::AlignHCenter|Qt::AlignVCenter);
 	l->addWidget(c, 1, 0, Qt::AlignHCenter|Qt::AlignVCenter);
