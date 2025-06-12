@@ -76,6 +76,7 @@ find_package(QT NAMES Qt6)
 find_package(Qt6 ${QT6_MIN_VERSION} COMPONENTS ${QT_COMPONENTS} REQUIRED)
 
 qt_add_executable(${PROJECT_NAME} ${SOURCES})
+
 set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON)
 target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Widgets Qt6::Xml)
 
