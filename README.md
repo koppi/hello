@@ -10,8 +10,8 @@ Hello, world!
 $ cmake --list-presets
 Available configure presets:
 
-  "debug"         - Debug
-  "release"       - Release
+  "debug"         - Configure Debug
+  "release"       - Configure Release
 $ cmake --preset debug
 ...
 $ cmake --build --list-presets
@@ -21,4 +21,5 @@ Available build presets:
   "app-release" - Build Release
 $ cmake --build --preset app-debug
 ...
+$ build/debug/app # run the app
 ```
