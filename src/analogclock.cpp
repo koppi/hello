@@ -134,18 +134,22 @@ void AnalogClock::timerTimeout() {
 
 void AnalogClock::paintDefault(QPainter *painter) {
     static const QPolygon hourHand({
-        QPoint(7, 8),
-        QPoint(-7, 8),
-        QPoint(0, -40)
+        QPoint(5, 14),
+        QPoint(-5, 14),
+        QPoint(-4, -71),
+        QPoint(4, -71)
     });
     static const QPolygon minuteHand({
-        QPoint(7, 8),
-        QPoint(-7, 8),
-        QPoint(0, -70)
+        QPoint(4, 14),
+        QPoint(-4, 14),
+        QPoint(-3, -89),
+        QPoint(3, -89)
     });
     static const QPolygon secondsHand(QVector<QPoint>({
-        QPoint(0, 25),
-        QPoint(0, -85)
+        QPoint(1, 14),
+        QPoint(-1, 14),
+        QPoint(-1, -89),
+        QPoint(1, -89)
     }));
 
     static const QLine hourMarker(88, 0, 96, 0);
