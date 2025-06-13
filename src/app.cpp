@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    Win w; w.resize(500,500); w.show();
+    Win w; w.show();
 
     return QApplication::exec();
 }

@@ -18,18 +18,18 @@ Win::Win(QWidget *parent) noexcept : QMainWindow(parent) {
 	file->addAction(exitAct);
 	menu->addMenu(file);
 
-	btn = new QPushButton(tr("Hello, world!"), this);
-	btn->setDefault(true);
-	connect(btn, SIGNAL(clicked()), this, SLOT(close()));
+	//btn = new QPushButton(tr("Hello, world!"), this);
+	//btn->setDefault(true);
+	//connect(btn, SIGNAL(clicked()), this, SLOT(close()));
 
 	auto *l = new QGridLayout(cw);
 
-	c = new Clock(480, 480, this);
+	ac = new AnalogClock(this);
 
-	l->addWidget(btn, 0,0, Qt::AlignHCenter|Qt::AlignVCenter);
-	l->addWidget(c, 1, 0, Qt::AlignHCenter|Qt::AlignVCenter);
+	// l->addWidget(btn, 0,0, Qt::AlignHCenter|Qt::AlignVCenter);
+	l->addWidget(ac, 0, 0, Qt::AlignHCenter|Qt::AlignVCenter);
 
-	setCentralWidget(c);
+	setCentralWidget(cw);
 
 	statusBar()->showMessage(tr("Ready"), 2000);
 }

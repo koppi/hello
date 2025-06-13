@@ -3,7 +3,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 
-#include "clock.h"
+#include "analogclock.h"
 
 class Win : public QMainWindow
 {
@@ -13,5 +13,5 @@ public:
     explicit Win(QWidget *parent = nullptr) noexcept;
 private:
     QPushButton *btn;
-    Clock *c;
+    AnalogClock *ac;
 };
