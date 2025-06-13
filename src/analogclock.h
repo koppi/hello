@@ -73,11 +73,11 @@ public:
     bool showAmPm() const;
 
     QSize sizeHint() const override {
-        return QSize(200, 200);
+        return QSize(400, 400);
     }
 
     QSize minimumSizeHint() const override {
-        return QSize(109, 109);
+        return QSize(200, 200);
     }
 
 public slots:
