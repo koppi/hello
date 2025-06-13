@@ -51,6 +51,8 @@ if(APPLE)
     add_link_options(-stdlib=libc++)
 endif()
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -finput-charset=UTF-8 -fexec-charset=UTF-8 -Wall")
+
 # Global compilation switches.
 option(REVISION_FROM_GIT "Get revision using `git rev-parse`." ON)
 
@@ -75,7 +77,9 @@ endif()
 find_package(QT NAMES Qt6)
 find_package(Qt6 ${QT6_MIN_VERSION} COMPONENTS ${QT_COMPONENTS} REQUIRED)
 
-qt_add_executable(${PROJECT_NAME} ${SOURCES})
+set(RESOURCES "${CMAKE_CURRENT_SOURCE_DIR}/res/res.qrc")
+
+qt_add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON)
 target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Widgets Qt6::Xml)

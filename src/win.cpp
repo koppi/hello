@@ -16,7 +16,7 @@ Win::Win(QWidget *parent) noexcept : QMainWindow(parent) {
 	const auto file = new QMenu(tr("&File"));
 
 	const auto exitAct = new QAction(tr("E&xit"), cw);
-	exitAct->setIcon(QIcon::fromTheme("application-exit"));
+	exitAct->setIcon(QIcon(":/icons/actions/application-exit.png"));
 	exitAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Q));
 	exitAct->setToolTip(tr("Exit the application"));
 	connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
