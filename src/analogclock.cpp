@@ -162,10 +162,10 @@ void AnalogClock::paintDefault(QPainter *painter) {
         paintAmPm(painter, 50);
 
     paintHourHand(painter, hourHand, hourColor);
-    paintHourMarkers(painter, hourMarker, Qt::white);
+    paintHourMarkers(painter, hourMarker, Qt::black);
 
     paintMinuteHand(painter, minuteHand, minuteColor);
-    paintMinuteMarkers(painter, minuteMarker, Qt::white);
+    paintMinuteMarkers(painter, minuteMarker, Qt::black);
 
     if (m_showSecondsHand) {
         paintSecondsHand(painter, secondsHand, Qt::blue);
