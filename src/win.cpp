@@ -1,5 +1,4 @@
 #include "win.h"
-#include "win.h"
 
 #include <QHBoxLayout>
 #include <qmenu.h>
@@ -46,11 +45,21 @@ Win::Win(QWidget *parent) noexcept : QMainWindow(parent) {
 	auto *l = new QGridLayout(cw);
 
 	ac = new AnalogClock(cw);
+	label = new QLabel("Test", cw);
 
 	// l->addWidget(btn, 0,0, Qt::AlignHCenter|Qt::AlignVCenter);
 	l->addWidget(ac, 0, 0, Qt::AlignHCenter|Qt::AlignVCenter);
-
+	l->addWidget(label, 1,0, Qt::AlignHCenter|Qt::AlignVCenter);
 	setCentralWidget(cw);
+
+	QHostAddress host;
+	host.setAddress("test.mosquitto.org");
+	//host.setAddress("localhost");
+	Subscriber *s = new Subscriber();
+
+	connect(s, &Subscriber::received, this,&Win::onReceived);
+
+	s->connectToHost();
 
 	statusBar()->showMessage(tr("Ready"), 2000);
 }
@@ -58,4 +67,12 @@ Win::Win(QWidget *parent) noexcept : QMainWindow(parent) {
 void Win::aboutQt() noexcept
 {
 	QMessageBox::aboutQt(this);
+}
+
+void Win::onReceived(const QMQTT::Message& message)
+{
+	QString msg;
+	msg = QString(message.payload().toStdString().c_str());
+	label->setText(msg);
+	qDebug() << msg;
 }
