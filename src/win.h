@@ -11,6 +11,9 @@ class Win : public QMainWindow
 
 public:
     explicit Win(QWidget *parent = nullptr) noexcept;
+
+    public slots:
+    void aboutQt() noexcept;
 private:
     QPushButton *btn;
     AnalogClock *ac;

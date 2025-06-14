@@ -4,6 +4,7 @@
 #include <QHBoxLayout>
 #include <qmenu.h>
 #include <QMenuBar>
+#include <QMessageBox>
 #include <QToolBar>
 #include <QStatusBar>
 
@@ -23,6 +24,14 @@ Win::Win(QWidget *parent) noexcept : QMainWindow(parent) {
 
 	file->addAction(exitAct);
 	menu->addMenu(file);
+
+	const auto help = new QMenu(tr("&Help"), cw);
+	menu->addMenu(help);
+
+	const auto aboutQtAct = new QAction(tr("&About Qt"), cw);
+	connect(aboutQtAct, SIGNAL(triggered()), this, SLOT(aboutQt()));
+
+	help->addAction(aboutQtAct);
 
 	const auto tb = new QToolBar("main", cw);
 
@@ -44,4 +53,9 @@ Win::Win(QWidget *parent) noexcept : QMainWindow(parent) {
 	setCentralWidget(cw);
 
 	statusBar()->showMessage(tr("Ready"), 2000);
+}
+
+void Win::aboutQt() noexcept
+{
+	QMessageBox::aboutQt(this);
 }

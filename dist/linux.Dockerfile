@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM ubuntu:latest
 
 RUN apt -qq update
 RUN apt -qqqy install wget gnupg

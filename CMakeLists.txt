@@ -58,7 +58,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fno-math-errno -ffinite-math-only")
 option(REVISION_FROM_GIT "Get revision using `git rev-parse`." ON)
 
 # Import Qt libraries.
-set(QT6_MIN_VERSION 6.3.0)
+set(QT6_MIN_VERSION 6.4.2)
 
 set(QT_COMPONENTS
         Core
