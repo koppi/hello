@@ -25,7 +25,7 @@ if(UNIX)
     set(CMAKE_PREFIX_PATH "/usr/lib/x86_64-linux-gnu/cmake/Qt6")
 endif()
 
-project(app VERSION ${APP_VERSION} LANGUAGES CXX)
+project(app VERSION ${APP_VERSION} LANGUAGES C CXX)
 
 # Basic C++ related behavior of cmake.
 set(CMAKE_CXX_STANDARD 17)
@@ -43,7 +43,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 if(UNIX)
-    add_compile_options(-fPIC)
+  add_compile_options(-fPIC)
 endif()
 
 if(APPLE)
@@ -52,6 +52,7 @@ if(APPLE)
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -finput-charset=UTF-8 -fexec-charset=UTF-8 -Wall")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fno-math-errno -ffinite-math-only")
 
 # Global compilation switches.
 option(REVISION_FROM_GIT "Get revision using `git rev-parse`." ON)
@@ -62,6 +63,7 @@ set(QT6_MIN_VERSION 6.3.0)
 set(QT_COMPONENTS
         Core
         Gui
+        SpatialAudio
         Widgets
         Xml
 )
@@ -82,7 +84,7 @@ set(RESOURCES "${CMAKE_CURRENT_SOURCE_DIR}/res/res.qrc")
 qt_add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON)
-target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Widgets Qt6::Xml)
+target_link_libraries(${PROJECT_NAME} PUBLIC Qt::Core Qt::Widgets Qt::SpatialAudio Qt::Xml)
 
 if(WIN32)
     set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE TRUE)
