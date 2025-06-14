@@ -46,11 +46,6 @@
 #include <QWebSocket>
 #endif // QT_WEBSOCKETS_LIB
 
-#ifndef QT_NO_SSL
-#include <QSslConfiguration>
-QT_FORWARD_DECLARE_CLASS(QSslError)
-#endif // QT_NO_SSL
-
 #ifndef Q_ENUM_NS
 #define Q_ENUM_NS(x)
 #endif // Q_ENUM_NS
@@ -140,22 +135,12 @@ class Q_MQTT_EXPORT Client : public QObject
     Q_PROPERTY(bool _willRetain READ willRetain WRITE setWillRetain)
     Q_PROPERTY(QByteArray _willMessage READ willMessage WRITE setWillMessage)
     Q_PROPERTY(ConnectionState _connectionState READ connectionState)
-#ifndef QT_NO_SSL
-    Q_PROPERTY(QSslConfiguration _sslConfiguration READ sslConfiguration WRITE setSslConfiguration)
-#endif // QT_NO_SSL
 
 public:
     Client(const QHostAddress& host = QHostAddress::LocalHost,
            const quint16 port = 1883,
            QObject* parent = nullptr);
 
-#ifndef QT_NO_SSL
-    Client(const QString& hostName,
-           const quint16 port,
-           const QSslConfiguration& config,
-           const bool ignoreSelfSigned=false,
-           QObject* parent = nullptr);
-#endif // QT_NO_SSL
 
     // This function is provided for backward compatibility with older versions of QMQTT.
     // If the ssl parameter is true, this function will load a private key ('cert.key') and a local
@@ -211,10 +196,6 @@ public:
     QByteArray willMessage() const;
 
     bool isConnectedToHost() const;
-#ifndef QT_NO_SSL
-    QSslConfiguration sslConfiguration() const;
-    void setSslConfiguration(const QSslConfiguration& config);
-#endif // QT_NO_SSL
 
 public Q_SLOTS:
     void setHost(const QHostAddress& host);
@@ -241,11 +222,6 @@ public Q_SLOTS:
 
     quint16 publish(const QMQTT::Message& message);
 
-#ifndef QT_NO_SSL
-    void ignoreSslErrors();
-    void ignoreSslErrors(const QList<QSslError>& errors);
-#endif // QT_NO_SSL
-
 Q_SIGNALS:
     void connected();
     void disconnected();
@@ -256,9 +232,6 @@ Q_SIGNALS:
     void published(const QMQTT::Message& message, quint16 msgid = 0);
     void received(const QMQTT::Message& message);
     void pingresp();
-#ifndef QT_NO_SSL
-    void sslErrors(const QList<QSslError>& errors);
-#endif // QT_NO_SSL
 
 protected Q_SLOTS:
     void onNetworkConnected();
@@ -267,9 +240,6 @@ protected Q_SLOTS:
     void onTimerPingReq();
     void onPingTimeout();
     void onNetworkError(QAbstractSocket::SocketError error);
-#ifndef QT_NO_SSL
-    void onSslErrors(const QList<QSslError>& errors);
-#endif // QT_NO_SSL
 
 protected:
     QScopedPointer<ClientPrivate> d_ptr;

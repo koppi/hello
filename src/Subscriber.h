@@ -3,6 +3,8 @@
 
 #include <qmqtt.h>
 
+#include <QTextStream>
+
 const QHostAddress EXAMPLE_HOST = QHostAddress::LocalHost;
 const quint16 EXAMPLE_PORT = 1883;
 const QString EXAMPLE_TOPIC = "koppi/test";

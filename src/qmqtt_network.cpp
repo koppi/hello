@@ -32,7 +32,6 @@
 
 #include "qmqtt_network_p.h"
 #include "qmqtt_socket_p.h"
-#include "qmqtt_ssl_socket_p.h"
 #include "qmqtt_timer_p.h"
 #include "qmqtt_websocket_p.h"
 #include "qmqtt_frame.h"
@@ -55,21 +54,6 @@ QMQTT::Network::Network(QObject* parent)
 {
     initialize();
 }
-
-#ifndef QT_NO_SSL
-QMQTT::Network::Network(const QSslConfiguration& config, QObject *parent)
-    : NetworkInterface(parent)
-    , _port(DEFAULT_SSL_PORT)
-    , _autoReconnect(DEFAULT_AUTORECONNECT)
-    , _autoReconnectInterval(DEFAULT_AUTORECONNECT_INTERVAL_MS)
-    , _socket(new QMQTT::SslSocket(config))
-    , _autoReconnectTimer(new QMQTT::Timer)
-    , _readState(Header)
-{
-    initialize();
-    connect(_socket, &QMQTT::SslSocket::sslErrors, this, &QMQTT::Network::sslErrors);
-}
-#endif // QT_NO_SSL
 
 #ifdef QT_WEBSOCKETS_LIB
 #ifndef QT_NO_SSL

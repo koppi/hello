@@ -43,19 +43,6 @@ QMQTT::Client::Client(const QHostAddress& host,
     d->init(host, port);
 }
 
-#ifndef QT_NO_SSL
-QMQTT::Client::Client(const QString &hostName,
-                      const quint16 port,
-                      const QSslConfiguration &config,
-                      const bool ignoreSelfSigned, QObject *parent)
-    : QObject(parent)
-    , d_ptr(new ClientPrivate(this))
-{
-    Q_D(Client);
-    d->init(hostName, port, config, ignoreSelfSigned);
-}
-#endif // QT_NO_SSL
-
 QMQTT::Client::Client(const QString &hostName,
                       const quint16 port,
                       const bool ssl,
@@ -309,20 +296,6 @@ bool QMQTT::Client::isConnectedToHost() const
     return d->isConnectedToHost();
 }
 
-#ifndef QT_NO_SSL
-QSslConfiguration QMQTT::Client::sslConfiguration() const
-{
-    Q_D(const Client);
-    return d->sslConfiguration();
-}
-
-void QMQTT::Client::setSslConfiguration(const QSslConfiguration& config)
-{
-    Q_D(Client);
-    d->setSslConfiguration(config);
-}
-#endif // QT_NO_SSL
-
 void QMQTT::Client::connectToHost()
 {
     Q_D(Client);
@@ -388,25 +361,3 @@ void QMQTT::Client::onNetworkError(QAbstractSocket::SocketError error)
     Q_D(Client);
     d->onNetworkError(error);
 }
-
-#ifndef QT_NO_SSL
-void QMQTT::Client::onSslErrors(const QList<QSslError>& errors)
-{
-    Q_D(Client);
-    d->onSslErrors(errors);
-}
-#endif // QT_NO_SSL
-
-#ifndef QT_NO_SSL
-void QMQTT::Client::ignoreSslErrors()
-{
-    Q_D(Client);
-    d->ignoreSslErrors();
-}
-
-void QMQTT::Client::ignoreSslErrors(const QList<QSslError>& errors)
-{
-    Q_D(Client);
-    d->ignoreSslErrors(errors);
-}
-#endif // QT_NO_SSL

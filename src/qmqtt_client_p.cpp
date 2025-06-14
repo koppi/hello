@@ -52,9 +52,6 @@ static const quint8 QOS2 = 0x02;
 QMQTT::ClientPrivate::ClientPrivate(Client* qq_ptr)
     : _host(QHostAddress::LocalHost)
     , _port(1883)
-#ifndef QT_NO_SSL
-    , _ignoreSelfSigned(false)
-#endif // QT_NO_SSL
     , _gmid(1)
     , _version(MQTTVersion::V3_1_0)
     , _clientId(QUuid::createUuid().toString())
@@ -86,63 +83,16 @@ void QMQTT::ClientPrivate::init(const QHostAddress& host, const quint16 port, Ne
     }
 }
 
-#ifndef QT_NO_SSL
-void QMQTT::ClientPrivate::init(const QString& hostName, const quint16 port,
-                                const QSslConfiguration &config, const bool ignoreSelfSigned)
-{
-    Q_Q(Client);
-    _hostName = hostName;
-    _port = port;
-    _ignoreSelfSigned = ignoreSelfSigned;
-    init(new Network(config, q));
-    QObject::connect(_network.data(), &QMQTT::Network::sslErrors, q, &QMQTT::Client::onSslErrors);
-}
-#endif // QT_NO_SSL
-
 void QMQTT::ClientPrivate::init(const QString& hostName, const quint16 port, const bool ssl,
                                 const bool ignoreSelfSigned)
 {
     Q_Q(Client);
     _hostName = hostName;
     _port = port;
-    if (ssl)
-    {
-#ifndef QT_NO_SSL
-        QSslConfiguration sslConf = QSslConfiguration::defaultConfiguration();
-        QList<QSslCertificate> certs = QSslCertificate::fromPath(QStringLiteral("./cert.crt"));
-        if (!certs.isEmpty())
-            sslConf.setLocalCertificate(certs.first());
-        QFile file(QStringLiteral("./cert.key"));
-        if (file.open(QIODevice::ReadOnly)) {
-            sslConf.setPrivateKey(QSslKey(file.readAll(), QSsl::Rsa));
-        }
-        sslConf.setPeerVerifyMode(QSslSocket::VerifyNone);
-        init(hostName, port, sslConf, ignoreSelfSigned);
-#else
-        Q_UNUSED(ignoreSelfSigned)
-        qCritical() << "SSL not supported in this QT build";
-#endif // QT_NO_SSL
-    }
-    else
-    {
-        init(new Network(q));
-    }
+    init(new Network(q));
 }
 
 #ifdef QT_WEBSOCKETS_LIB
-#ifndef QT_NO_SSL
-void QMQTT::ClientPrivate::init(const QString& url,
-                                const QString& origin,
-                                QWebSocketProtocol::Version version,
-                                const QSslConfiguration* sslConfig,
-                                bool ignoreSelfSigned)
-{
-    Q_Q(Client);
-    _hostName = url;
-    _ignoreSelfSigned = ignoreSelfSigned;
-    init(new Network(origin, version, sslConfig, q));
-}
-#endif // QT_NO_SSL
 
 void QMQTT::ClientPrivate::init(const QString& url,
                                 const QString& origin,
@@ -778,43 +728,3 @@ void QMQTT::ClientPrivate::onNetworkError(QAbstractSocket::SocketError socketErr
     }
 }
 
-#ifndef QT_NO_SSL
-void QMQTT::ClientPrivate::ignoreSslErrors()
-{
-    _network->ignoreSslErrors();
-}
-
-void QMQTT::ClientPrivate::ignoreSslErrors(const QList<QSslError>& errors)
-{
-    _network->ignoreSslErrors(errors);
-}
-
-QSslConfiguration QMQTT::ClientPrivate::sslConfiguration() const
-{
-    return _network->sslConfiguration();
-}
-
-void QMQTT::ClientPrivate::setSslConfiguration(const QSslConfiguration& config)
-{
-    _network->setSslConfiguration(config);
-}
-
-void QMQTT::ClientPrivate::onSslErrors(const QList<QSslError>& errors)
-{
-    Q_Q(Client);
-
-    emit q->sslErrors(errors);
-
-    if (!_ignoreSelfSigned)
-        return;
-    foreach (QSslError error, errors)
-    {
-        if (error.error() != QSslError::SelfSignedCertificate &&
-            error.error() != QSslError::SelfSignedCertificateInChain)
-        {
-            return;
-        }
-    }
-    ignoreSslErrors();
-}
-#endif // QT_NO_SSL

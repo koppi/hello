@@ -170,8 +170,6 @@ void AnalogClock::paintDefault(QPainter *painter) {
     if (m_showSecondsHand) {
         paintSecondsHand(painter, secondsHand, Qt::blue);
     }
-
-    // drawText(painter);
 }
 
 void AnalogClock::paintImg(QPainter *painter, const QString &imgpath) {

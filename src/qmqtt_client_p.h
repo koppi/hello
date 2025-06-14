@@ -45,11 +45,6 @@
 #include <QWebSocket>
 #endif // QT_WEBSOCKETS_LIB
 
-#ifndef QT_NO_SSL
-#include <QSslConfiguration>
-QT_FORWARD_DECLARE_CLASS(QSslError)
-#endif // QT_NO_SSL
-
 namespace QMQTT {
 
 class NetworkInterface;
@@ -61,19 +56,8 @@ public:
     ~ClientPrivate();
 
     void init(const QHostAddress& host, const quint16 port, NetworkInterface* network = nullptr);
-#ifndef QT_NO_SSL
-    void init(const QString& hostName, const quint16 port, const QSslConfiguration& config,
-              const bool ignoreSelfSigned=false);
-#endif // QT_NO_SSL
     void init(const QString& hostName, const quint16 port, const bool ssl, const bool ignoreSelfSigned);
 #ifdef QT_WEBSOCKETS_LIB
-#ifndef QT_NO_SSL
-    void init(const QString& url,
-              const QString& origin,
-              QWebSocketProtocol::Version version,
-              const QSslConfiguration* sslConfig,
-              bool ignoreSelfSigned);
-#endif // QT_NO_SSL
     void init(const QString& url,
               const QString& origin,
               QWebSocketProtocol::Version version);
@@ -86,9 +70,6 @@ public:
 #ifdef QT_WEBSOCKETS_LIB
     QWebSocketProtocol::Version _webSocketVersion;
 #endif // QT_WEBSOCKETS_LIB
-#ifndef QT_NO_SSL
-    bool _ignoreSelfSigned;
-#endif // QT_NO_SSL
     quint16 _gmid;
     MQTTVersion _version;
     QString _clientId;
@@ -167,13 +148,6 @@ public:
     bool willRetain() const;
     QByteArray willMessage() const;
     void onNetworkError(QAbstractSocket::SocketError error);
-#ifndef QT_NO_SSL
-    void ignoreSslErrors();
-    void ignoreSslErrors(const QList<QSslError>& errors);
-    QSslConfiguration sslConfiguration() const;
-    void setSslConfiguration(const QSslConfiguration& config);
-    void onSslErrors(const QList<QSslError>& errors);
-#endif // QT_NO_SSL
 
     Q_DECLARE_PUBLIC(Client)
 };

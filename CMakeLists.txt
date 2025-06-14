@@ -52,8 +52,10 @@ if(APPLE)
     add_link_options(-stdlib=libc++)
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -finput-charset=UTF-8 -fexec-charset=UTF-8 -Wall")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fno-math-errno -ffinite-math-only")
+if (NOT DEFINED WIN32)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -finput-charset=UTF-8 -fexec-charset=UTF-8 -Wall")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fno-math-errno -ffinite-math-only")
+endif()
 
 # Global compilation switches.
 option(REVISION_FROM_GIT "Get revision using `git rev-parse`." ON)
