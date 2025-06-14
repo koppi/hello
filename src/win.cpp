@@ -53,7 +53,8 @@ Win::Win(QWidget *parent) noexcept : QMainWindow(parent) {
 	setCentralWidget(cw);
 
 	QHostAddress host;
-	host.setAddress("test.mosquitto.org");
+	//host.setAddress("test.mosquitto.org");
+	host.setAddress("broker.emqx.io");
 	//host.setAddress("localhost");
 	Subscriber *s = new Subscriber();
 
