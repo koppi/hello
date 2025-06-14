@@ -1,4 +1,4 @@
-FROM stateoftheartio/qt6:6.6-wasm-aqt
+FROM stateoftheartio/qt6:6.8-wasm-aqt
 
 WORKDIR /home/user
 

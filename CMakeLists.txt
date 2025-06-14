@@ -63,7 +63,6 @@ set(QT6_MIN_VERSION 6.3.0)
 set(QT_COMPONENTS
         Core
         Gui
-        SpatialAudio
         Widgets
         Xml
 )
@@ -84,7 +83,7 @@ set(RESOURCES "${CMAKE_CURRENT_SOURCE_DIR}/res/res.qrc")
 qt_add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON)
-target_link_libraries(${PROJECT_NAME} PUBLIC Qt::Core Qt::Widgets Qt::SpatialAudio Qt::Xml)
+target_link_libraries(${PROJECT_NAME} PUBLIC Qt::Core Qt::Widgets Qt::Xml)
 
 if(WIN32)
     set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE TRUE)
