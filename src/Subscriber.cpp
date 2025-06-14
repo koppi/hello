@@ -8,15 +8,30 @@ Subscriber::Subscriber(const QHostAddress& host,
                         QObject* parent)
         : QMQTT::Client(host, port, parent)
         , _qout(stdout)
-    {
-        connect(this, &Subscriber::connected, this, &Subscriber::onConnected);
-        connect(this, &Subscriber::subscribed, this, &Subscriber::onSubscribed);
-        connect(this, &Subscriber::received, this, &Subscriber::onReceived);
+{
+    connect(this, &Subscriber::connected, this, &Subscriber::onConnected);
+    connect(this, &Subscriber::subscribed, this, &Subscriber::onSubscribed);
+    connect(this, &Subscriber::received, this, &Subscriber::onReceived);
 
-        _qout << "Subscribing" << Qt::endl;
-    };
+    _qout << "Subscribing" << Qt::endl;
+};
 
-    Subscriber::~Subscriber() {}
+Subscriber::Subscriber(const QString& url,
+                      const QString& origin,
+                      QWebSocketProtocol::Version version,
+                      bool ignoreSelfSigned,
+                      QObject* parent)
+        : QMQTT::Client(url, origin, version, ignoreSelfSigned, parent)
+        , _qout(stdout)
+{
+    connect(this, &Subscriber::connected, this, &Subscriber::onConnected);
+    connect(this, &Subscriber::subscribed, this, &Subscriber::onSubscribed);
+    connect(this, &Subscriber::received, this, &Subscriber::onReceived);
+
+    _qout << "Subscribing " << url << " origin " << origin << Qt::endl;
+};
+
+Subscriber::~Subscriber() {}
 
 void Subscriber::onConnected()
 {

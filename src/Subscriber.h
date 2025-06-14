@@ -16,6 +16,11 @@ public:
     explicit Subscriber(const QHostAddress& host = EXAMPLE_HOST,
                         const quint16 port = EXAMPLE_PORT,
                         QObject* parent = nullptr);
+    explicit Subscriber(const QString& url,
+                        const QString& origin,
+                        QWebSocketProtocol::Version version,
+                        bool ignoreSelfSigned = false,
+                        QObject* parent = nullptr);
     virtual ~Subscriber();
 
     QTextStream _qout;

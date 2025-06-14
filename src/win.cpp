@@ -52,11 +52,11 @@ Win::Win(QWidget *parent) noexcept : QMainWindow(parent) {
 	l->addWidget(label, 1,0, Qt::AlignHCenter|Qt::AlignVCenter);
 	setCentralWidget(cw);
 
-	QHostAddress host;
+	//QHostAddress host;
 	//host.setAddress("test.mosquitto.org");
-	host.setAddress("broker.emqx.io");
+	//host.setAddress("broker.emqx.io");
 	//host.setAddress("localhost");
-	Subscriber *s = new Subscriber();
+	Subscriber *s = new Subscriber("broker.emqx.io", "<origin>", QWebSocketProtocol::VersionUnknown, true, this);
 
 	connect(s, &Subscriber::received, this,&Win::onReceived);
 

@@ -56,22 +56,6 @@ QMQTT::Network::Network(QObject* parent)
 }
 
 #ifdef QT_WEBSOCKETS_LIB
-#ifndef QT_NO_SSL
-QMQTT::Network::Network(const QString& origin,
-                        QWebSocketProtocol::Version version,
-                        const QSslConfiguration* sslConfig,
-                        QObject* parent)
-    : NetworkInterface(parent)
-    , _port(DEFAULT_SSL_PORT)
-    , _autoReconnect(DEFAULT_AUTORECONNECT)
-    , _autoReconnectInterval(DEFAULT_AUTORECONNECT_INTERVAL_MS)
-    , _socket(new QMQTT::WebSocket(origin, version, sslConfig))
-    , _autoReconnectTimer(new QMQTT::Timer)
-    , _readState(Header)
-{
-    initialize();
-}
-#endif // QT_NO_SSL
 
 QMQTT::Network::Network(const QString& origin,
                         QWebSocketProtocol::Version version,

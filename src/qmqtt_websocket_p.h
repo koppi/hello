@@ -58,13 +58,6 @@ class WebSocket : public SocketInterface
 {
     Q_OBJECT
 public:
-#ifndef QT_NO_SSL
-    WebSocket(const QString& origin,
-              QWebSocketProtocol::Version version,
-              const QSslConfiguration* sslConfig,
-              QObject* parent = nullptr);
-#endif // QT_NO_SSL
-
     WebSocket(const QString& origin,
               QWebSocketProtocol::Version version,
               QObject* parent = nullptr);
@@ -81,12 +74,6 @@ public:
     void disconnectFromHost();
     QAbstractSocket::SocketState state() const;
     QAbstractSocket::SocketError error() const;
-#ifndef QT_NO_SSL
-    void ignoreSslErrors(const QList<QSslError>& errors);
-    void ignoreSslErrors();
-    QSslConfiguration sslConfiguration() const;
-    void setSslConfiguration(const QSslConfiguration& config);
-#endif // QT_NO_SSL
 
 private:
     void initialize();

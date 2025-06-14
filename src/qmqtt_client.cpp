@@ -65,28 +65,10 @@ QMQTT::Client::Client(const QString& url,
     , d_ptr(new ClientPrivate(this))
 {
     Q_D(Client);
-#ifndef QT_NO_SSL
-    d->init(url, origin, version, nullptr, ignoreSelfSigned);
-#else
     Q_UNUSED(ignoreSelfSigned)
     d->init(url, origin, version);
-#endif // QT_NO_SSL
 }
 
-#ifndef QT_NO_SSL
-QMQTT::Client::Client(const QString& url,
-                      const QString& origin,
-                      QWebSocketProtocol::Version version,
-                      const QSslConfiguration& sslConfig,
-                      const bool ignoreSelfSigned,
-                      QObject* parent)
-    : QObject(parent)
-    , d_ptr(new ClientPrivate(this))
-{
-    Q_D(Client);
-    d->init(url, origin, version, &sslConfig, ignoreSelfSigned);
-}
-#endif // QT_NO_SSL
 #endif // QT_WEBSOCKETS_LIB
 
 QMQTT::Client::Client(NetworkInterface* network,

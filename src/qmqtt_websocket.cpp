@@ -6,22 +6,6 @@
 #include <QUrl>
 #include <QSslError>
 
-#ifndef QT_NO_SSL
-QMQTT::WebSocket::WebSocket(const QString& origin,
-                            QWebSocketProtocol::Version version,
-                            const QSslConfiguration* sslConfig,
-                            QObject* parent)
-    : SocketInterface(parent)
-    , _socket(new QWebSocket(origin, version, this))
-    , _ioDevice(new WebSocketIODevice(_socket, this))
-{
-    initialize();
-    if (sslConfig != nullptr)
-        _socket->setSslConfiguration(*sslConfig);
-    connect(_socket, &QWebSocket::sslErrors, this, &WebSocket::sslErrors);
-}
-#endif // QT_NO_SSL
-
 QMQTT::WebSocket::WebSocket(const QString& origin,
                             QWebSocketProtocol::Version version,
                             QObject* parent)
@@ -76,28 +60,5 @@ QAbstractSocket::SocketError QMQTT::WebSocket::error() const
 {
     return _socket->error();
 }
-
-#ifndef QT_NO_SSL
-void QMQTT::WebSocket::ignoreSslErrors(const QList<QSslError>& errors)
-{
-    _socket->ignoreSslErrors(errors);
-}
-
-void QMQTT::WebSocket::ignoreSslErrors()
-{
-    _socket->ignoreSslErrors();
-}
-
-QSslConfiguration QMQTT::WebSocket::sslConfiguration() const
-{
-    return _socket->sslConfiguration();
-}
-
-void QMQTT::WebSocket::setSslConfiguration(const QSslConfiguration& config)
-{
-    _socket->setSslConfiguration(config);
-}
-
-#endif // QT_NO_SSL
 
 #endif // QT_WEBSOCKETS_LIB

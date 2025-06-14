@@ -160,14 +160,7 @@ public:
            bool ignoreSelfSigned = false,
            QObject* parent = nullptr);
 
-#ifndef QT_NO_SSL
-    Client(const QString& url,
-           const QString& origin,
-           QWebSocketProtocol::Version version,
-           const QSslConfiguration& config,
-           const bool ignoreSelfSigned = false,
-           QObject* parent = nullptr);
-#endif // QT_NO_SSL
+
 #endif // QT_WEBSOCKETS_LIB
 
     // for testing purposes only
