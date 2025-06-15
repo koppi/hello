@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QLabel>
+#include <QTime>
 
 #include "analogclock.h"
 
@@ -16,6 +17,7 @@ public:
 
 public slots:
     void aboutQt() noexcept;
+	void updateTime();
 
 private:
     QPushButton *btn;

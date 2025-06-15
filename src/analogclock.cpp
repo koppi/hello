@@ -55,45 +55,14 @@
 #include <QStyle>
 #include <QApplication>
 
-int AnalogClock::sysUtcOffset = 0;
-
 AnalogClock::AnalogClock(QWidget *parent) : QWidget(parent) {
-    m_styleName = qApp->style()->objectName();
-    m_time      = QTime::currentTime();
-
-    QDateTime local(QDateTime::currentDateTime());
-    sysUtcOffset = local.offsetFromUtc();
-    m_utcOffset  = sysUtcOffset;
-
     QTimer *timer = new QTimer(this);
     timer->setTimerType(Qt::PreciseTimer);
 
     connect(timer, &QTimer::timeout, this,
             QOverload<>::of(&AnalogClock::timerTimeout));
 
-    const int lastSecond  = QTime::currentTime().second();
-    QTimer   *offsetTimer = new QTimer(this);
-    timer->setTimerType(Qt::PreciseTimer);
-    connect(offsetTimer, &QTimer::timeout,
-            [this, timer, offsetTimer, lastSecond]() {
-        if (QTime::currentTime().second() != lastSecond) {
-            setTime(m_time.addSecs(1));
-            timer->start(1000);
-            offsetTimer->deleteLater();
-        }
-    });
-    offsetTimer->start(1);
-
-    setWindowTitle(tr("Analog Clock"));
-}
-
-QTime AnalogClock::time() const {
-    return m_time;
-}
-
-void AnalogClock::setTime(const QTime &time) {
-    m_time = time;
-    update();
+    timer->start(60.f / 1000.f);
 }
 
 void AnalogClock::paintEvent(QPaintEvent *) {
@@ -107,28 +76,13 @@ void AnalogClock::paintEvent(QPaintEvent *) {
     painter.setRenderHint(QPainter::Antialiasing);
     painter.translate(width() / 2, height() / 2);
     painter.scale(side / 200.0, side / 200.0);
-
-    /* Shift the time according to the difference between
-     * the system and the local timezones */
-    const int actualOffsetDiff = m_utcOffset - sysUtcOffset;
-    m_time = m_time.addSecs(actualOffsetDiff);
-
     paintDefault(&painter);
-
-    /* Revert */
-    m_time = m_time.addSecs(-actualOffsetDiff);
-}
-
-void AnalogClock::changeEvent(QEvent *e) {
-    QWidget::changeEvent(e);
-    if (e->type() == QEvent::StyleChange) {
-        m_styleName = qApp->style()->objectName();
-        update();
-    }
 }
 
 void AnalogClock::timerTimeout() {
-    m_time = m_time.addSecs(1);
+	m_time = QTime::currentTime();
+	
+	emit valueChanged();
     update();
 }
 
@@ -158,18 +112,13 @@ void AnalogClock::paintDefault(QPainter *painter) {
     const QColor hourColor(Qt::red);
     const QColor minuteColor(Qt::green);
 
-    if (m_showAmPm)
-        paintAmPm(painter, 50);
-
     paintHourHand(painter, hourHand, hourColor);
     paintHourMarkers(painter, hourMarker, Qt::black);
 
     paintMinuteHand(painter, minuteHand, minuteColor);
     paintMinuteMarkers(painter, minuteMarker, Qt::black);
 
-    if (m_showSecondsHand) {
-        paintSecondsHand(painter, secondsHand, Qt::blue);
-    }
+	paintSecondsHand(painter, secondsHand, Qt::blue);
 }
 
 void AnalogClock::paintImg(QPainter *painter, const QString &imgpath) {
@@ -223,7 +172,7 @@ void AnalogClock::paintMinuteMarkers(QPainter *painter, const QLine &line,
 void AnalogClock::paintSecondsHand(QPainter *painter, const QPolygon &poly,
                                    const QColor &color) {
     painter->save();
-    painter->rotate(6.0 * m_time.second());
+    painter->rotate((m_time.second() + m_time.msec() / 1000.f) * 6.0);
     if (poly.size() == 2) {
         painter->setPen(color);
         painter->drawLine(poly[0], poly[1]);
@@ -235,53 +184,4 @@ void AnalogClock::paintSecondsHand(QPainter *painter, const QPolygon &poly,
     painter->restore();
 
     painter->setPen(Qt::NoPen);
-}
-
-void AnalogClock::paintAmPm(QPainter *painter, int offset) {
-    painter->setPen(QColor(127, 127, 127, 191));
-    QFont font;
-    font.setWeight(QFont::Bold);
-    font.setPointSize(15);
-    painter->setFont(font);
-    painter->drawText(
-        0, offset, 0, 0, Qt::AlignCenter | Qt::TextDontClip,
-        (m_time.hour() < 12) ? locale().amText() : locale().pmText());
-
-    painter->setPen(Qt::NoPen);
-}
-
-bool AnalogClock::showSecondsHand() const {
-    return m_showSecondsHand;
-}
-
-void AnalogClock::setShowSecondsHand(bool showSecondsHand) {
-    m_showSecondsHand = showSecondsHand;
-    update();
-}
-
-int AnalogClock::utcOffset() const {
-    return m_utcOffset;
-}
-
-bool AnalogClock::showAmPm() const {
-    return m_showAmPm;
-}
-
-bool AnalogClock::setTimezone(int value) {
-    if (value <= 14 && value >= -14) {
-        /* 3600 seconds = 1 hour */
-        setUtcOffset(value * 3600);
-        return true;
-    }
-    return false;
-}
-
-void AnalogClock::setUtcOffset(int offset) {
-    m_utcOffset = offset;
-    update();
-}
-
-void AnalogClock::setShowAmPm(bool value) {
-    m_showAmPm = value;
-    update();
 }

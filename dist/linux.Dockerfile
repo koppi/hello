@@ -8,6 +8,7 @@ RUN apt -qq update
 RUN apt -qqqy -o Dpkg::Progress-Fancy="0" -o APT::Color="0" -o Dpkg::Use-Pty="0" install cmake make ninja-build g++
 RUN apt -qqqy -o Dpkg::Progress-Fancy="0" -o APT::Color="0" -o Dpkg::Use-Pty="0" install gcc g++
 RUN apt -qqqy -o Dpkg::Progress-Fancy="0" -o APT::Color="0" -o Dpkg::Use-Pty="0" install qt6-base-dev libxkbcommon-dev
+RUN apt -qqqy -o Dpkg::Progress-Fancy="0" -o APT::Color="0" -o Dpkg::Use-Pty="0" install libcurl4-gnutls-dev
 RUN apt -qqqy -o Dpkg::Progress-Fancy="0" -o APT::Color="0" -o Dpkg::Use-Pty="0" install vulkan-sdk
 
 COPY . .

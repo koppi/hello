@@ -6,6 +6,12 @@
 #include <QMessageBox>
 #include <QToolBar>
 #include <QStatusBar>
+#include <QFile>
+
+#include "islamic.h"
+#include "tz.h"
+#include <iostream>
+#include <sstream>
 
 Win::Win(QWidget *parent) noexcept : QMainWindow(parent) {
 	setWindowTitle(APP_LONG_NAME);
@@ -47,6 +53,8 @@ Win::Win(QWidget *parent) noexcept : QMainWindow(parent) {
 	ac = new AnalogClock(cw);
 	label = new QLabel("Test", cw);
 
+	connect(ac, &AnalogClock::valueChanged, this, &Win::updateTime);
+
 	// l->addWidget(btn, 0,0, Qt::AlignHCenter|Qt::AlignVCenter);
 	l->addWidget(ac, 0, 0, Qt::AlignHCenter|Qt::AlignVCenter);
 	l->addWidget(label, 1,0, Qt::AlignHCenter|Qt::AlignVCenter);
@@ -58,4 +66,16 @@ Win::Win(QWidget *parent) noexcept : QMainWindow(parent) {
 void Win::aboutQt() noexcept
 {
 	QMessageBox::aboutQt(this);
+}
+
+void Win::updateTime() {
+	auto zt = date::make_zoned(date::current_zone(), std::chrono::system_clock::now());
+    auto ld = date::floor<date::days>(zt.get_local_time());
+    islamic::year_month_day ymd{ld};
+    auto time = date::make_time(zt.get_local_time() - ld);
+
+    std::stringstream ss;
+	
+	ss << ymd << ' ' << time << '\n';
+	label->setText(QString::fromUtf8(ss.str()));
 }

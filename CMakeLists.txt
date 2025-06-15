@@ -79,6 +79,8 @@ if (FORCE_COLORED_OUTPUT)
     endif()
 endif()
 
+find_package(CURL REQUIRED)
+
 find_package(QT NAMES Qt6)
 find_package(Qt6 ${QT6_MIN_VERSION} COMPONENTS ${QT_COMPONENTS} REQUIRED)
 
@@ -87,7 +89,7 @@ set(RESOURCES "${CMAKE_CURRENT_SOURCE_DIR}/res/res.qrc")
 qt_add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES AUTOMOC ON)
-target_link_libraries(${PROJECT_NAME} PUBLIC Qt::Core Qt::Network Qt::Widgets Qt::Xml)
+target_link_libraries(${PROJECT_NAME} PUBLIC Qt::Core Qt::Network Qt::Widgets Qt::Xml CURL::libcurl)
 
 if(WIN32)
     set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE TRUE)
