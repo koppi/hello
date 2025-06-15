@@ -8,6 +8,7 @@
 #include <QStatusBar>
 #include <QFile>
 
+#include "date/tz.h"
 #include "islamic.h"
 #include <iostream>
 #include <sstream>
@@ -50,7 +51,7 @@ Win::Win(QWidget *parent) noexcept : QMainWindow(parent) {
 	auto *l = new QGridLayout(cw);
 
 	ac = new AnalogClock(cw);
-	label = new QLabel("", cw);
+	label = new QLabel("Test", cw);
 
 	connect(ac, &AnalogClock::valueChanged, this, &Win::updateTime);
 
@@ -68,15 +69,16 @@ void Win::aboutQt() noexcept
 }
 
 void Win::updateTime() {
-	/*
+
+	/* Islamic calendar
 	auto zt = date::make_zoned(date::current_zone(), std::chrono::system_clock::now());
     auto ld = date::floor<date::days>(zt.get_local_time());
     islamic::year_month_day ymd{ld};
     auto time = date::make_time(zt.get_local_time() - ld);
+	*/
 
     std::stringstream ss;
-	
-	ss << ymd << ' ' << time << '\n';
+	ss << date::zoned_time{date::current_zone(), std::chrono::system_clock::now()};
+	// ss << ymd << ' ' << time << '\n';
 	label->setText(QString::fromUtf8(ss.str()));
-	*/
 }

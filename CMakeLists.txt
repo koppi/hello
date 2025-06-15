@@ -53,7 +53,7 @@ if(APPLE)
 endif()
 
 if (NOT DEFINED WIN32)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -finput-charset=UTF-8 -fexec-charset=UTF-8 -Wall -DHAS_REMOTE_API=0")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -finput-charset=UTF-8 -fexec-charset=UTF-8 -Wall -DHAS_REMOTE_API=0 -DUSE_OS_TZDB=1")
     set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fno-math-errno -ffinite-math-only")
 endif()
 
