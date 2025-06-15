@@ -69,7 +69,7 @@ void Win::aboutQt() noexcept
 }
 
 void Win::updateTime(QTime t) {
-	QString formattedTime = t.toString("hh:mm:ss.zzz");
+	const QString formattedTime = t.toString("hh:mm:ss.zzz");
 	label->setText(formattedTime);
 
 	/*
