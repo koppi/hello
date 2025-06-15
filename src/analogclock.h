@@ -20,7 +20,7 @@ public:
     }
 
 signals:
-	void valueChanged();
+	void valueChanged(QTime time);
 	
 protected:
     void paintEvent(QPaintEvent *event) override;

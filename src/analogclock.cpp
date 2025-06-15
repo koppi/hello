@@ -82,7 +82,7 @@ void AnalogClock::paintEvent(QPaintEvent *) {
 void AnalogClock::timerTimeout() {
 	m_time = QTime::currentTime();
 	
-	emit valueChanged();
+	emit valueChanged(m_time);
     update();
 }
 

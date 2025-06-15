@@ -17,7 +17,7 @@ public:
 
 public slots:
     void aboutQt() noexcept;
-	void updateTime();
+	void updateTime(QTime t);
 
 private:
     QPushButton *btn;

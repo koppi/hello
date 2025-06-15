@@ -68,17 +68,20 @@ void Win::aboutQt() noexcept
 	QMessageBox::aboutQt(this);
 }
 
-void Win::updateTime() {
+void Win::updateTime(QTime t) {
+	QString formattedTime = t.toString("hh:mm:ss.zzz");
+	label->setText(formattedTime);
 
-	/* Islamic calendar
+	/*
+	// Islamic calendar
 	auto zt = date::make_zoned(date::current_zone(), std::chrono::system_clock::now());
     auto ld = date::floor<date::days>(zt.get_local_time());
     islamic::year_month_day ymd{ld};
     auto time = date::make_time(zt.get_local_time() - ld);
-	*/
 
     std::stringstream ss;
-	ss << date::zoned_time{date::current_zone(), std::chrono::system_clock::now()};
-	// ss << ymd << ' ' << time << '\n';
+	//ss << date::zoned_time{date::current_zone(), std::chrono::system_clock::now()};
+	ss << ymd << ' ' << time << '\n';
 	label->setText(QString::fromUtf8(ss.str()));
+	*/
 }
