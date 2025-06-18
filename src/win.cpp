@@ -8,8 +8,6 @@
 #include <QStatusBar>
 #include <QFile>
 
-#include "date/tz.h"
-#include "islamic.h"
 #include <iostream>
 #include <sstream>
 
